@@ -686,7 +686,7 @@ class HFLM(TemplateLM):
                 vocab_size = self._model.config.text_config.vocab_size
             else:
                 vocab_size = self._model.config.vocab_size
-            
+
             if vocab_size != len(self.tokenizer):
                 # resize model for LoRAs with added tokens
                 eval_logger.info(
