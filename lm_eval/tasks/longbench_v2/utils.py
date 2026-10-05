@@ -83,7 +83,7 @@ def count_score(prediction, ground_truth):
         pred_count = int(numbers[0])
         true_count = int(ground_truth)
         return 1.0 if pred_count == true_count else 0.0
-    except:
+    except (ValueError, TypeError):
         return 0.0
 
 

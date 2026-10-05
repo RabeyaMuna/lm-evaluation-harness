@@ -3,7 +3,7 @@
 import re
 import json
 import string
-from typing import List, Dict, Any, Union
+from typing import Any, Dict, List, Union
 from collections import Counter
 
 
@@ -80,7 +80,7 @@ def number_string_accuracy(prediction: str, ground_truth: str) -> float:
         pred_num = float(pred)
         truth_num = float(truth)
         return 1.0 if abs(pred_num - truth_num) < 0.001 else 0.0
-    except:
+    except (ValueError, TypeError):
         # Fall back to string comparison
         return 1.0 if pred == truth else 0.0
 
@@ -98,7 +98,7 @@ def math_accuracy(prediction: str, ground_truth: str, tolerance: float = 0.001) 
         pred_num = float(extract_number(prediction))
         truth_num = float(extract_number(ground_truth))
         return 1.0 if abs(pred_num - truth_num) < tolerance else 0.0
-    except:
+    except (ValueError, TypeError):
         # If not numeric, do exact match
         return 1.0 if normalize_text(prediction) == normalize_text(ground_truth) else 0.0
 
@@ -113,7 +113,7 @@ def code_execution_accuracy(prediction: str, ground_truth: str) -> float:
         pred_json = json.loads(pred)
         truth_json = json.loads(truth)
         return 1.0 if pred_json == truth_json else 0.0
-    except:
+    except json.JSONDecodeError:
         pass
     
     # Otherwise do normalized comparison

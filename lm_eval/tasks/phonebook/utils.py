@@ -2,7 +2,7 @@
 
 import re
 import random
-from typing import List, Dict, Any, Tuple
+from typing import Any, Dict, List, Tuple
 
 
 def generate_phone_number() -> str:
