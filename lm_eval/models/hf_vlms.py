@@ -25,6 +25,18 @@ from lm_eval.models.utils import (
 DEFAULT_IMAGE_PLACEHOLDER = "<image>"
 
 
+VISION_TO_TEXT_MODEL = getattr(
+    transformers,
+    "AutoModelForVision2Seq",
+    getattr(transformers, "AutoModelForImageTextToText", None),
+)
+if VISION_TO_TEXT_MODEL is None:
+    raise AttributeError(
+        "Transformers does not expose a supported Vision-to-Text auto model class; "
+        "expected AutoModelForVision2Seq or AutoModelForImageTextToText."
+    )
+
+
 eval_logger = logging.getLogger(__name__)
 
 
@@ -34,7 +46,7 @@ class HFMultimodalLM(HFLM):
     An abstracted Hugging Face model class for multimodal LMs like Llava and Idefics.
     """
 
-    AUTO_MODEL_CLASS = transformers.AutoModelForVision2Seq
+    AUTO_MODEL_CLASS = VISION_TO_TEXT_MODEL
     MULTIMODAL = True  # flag to indicate, for now, that this model type can run multimodal requests
 
     def __init__(
