@@ -1,8 +1,20 @@
 import random
 
 import pytest
+import transformers
 
 import lm_eval.api.metrics as metrics
+from lm_eval.models.hf_vlms import HFMultimodalLM
+
+
+def test_multimodal_auto_model_class_compatibility():
+    expected = getattr(
+        transformers,
+        "AutoModelForVision2Seq",
+        getattr(transformers, "AutoModelForImageTextToText"),
+    )
+
+    assert HFMultimodalLM.AUTO_MODEL_CLASS is expected
 
 
 def test_bootstrapping():
