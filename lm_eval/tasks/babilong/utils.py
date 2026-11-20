@@ -69,7 +69,7 @@ def numeric_match(prediction: str, ground_truth: str, tolerance: float = 0.001) 
         truth_num = float(truth_nums[0])
         
         return 1.0 if abs(pred_num - truth_num) < tolerance else 0.0
-    except:
+    except (ValueError, IndexError):
         # Fall back to exact match if parsing fails
         return exact_match(prediction, ground_truth)
 
