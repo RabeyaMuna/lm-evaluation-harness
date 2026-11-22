@@ -6,7 +6,6 @@ from typing import List, Dict, Any, Tuple, Optional
 
 def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:
     """Process the SPaRC dataset documents."""
-    
     def _process_doc(doc):
         # Extract and clean the grid visualization if present
         if 'text_visualization' in doc:
@@ -36,15 +35,12 @@ def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:
             else:
                 doc['grid_height'] = 10
                 doc['grid_width'] = 10
-        
         return doc
-    
     return dataset.map(_process_doc)
 
 
 def doc_to_text(doc: Dict[str, Any]) -> str:
     """Convert a document to input text for the model using comprehensive prompt format."""
-    
     grid_size = doc.get("grid_size", {"width": 0, "height": 0})
     puzzle_array = doc.get("puzzle_array", [])
     grid_str = "\n".join(map(str, puzzle_array))
@@ -203,7 +199,6 @@ def doc_to_target(doc: Dict[str, Any]) -> str:
         "polyshapes": doc.get('polyshapes', {}),
         "difficulty": doc.get('difficulty_level', "unknown")
     }
-    
     # Return as JSON string so metrics can parse it
     return json.dumps(target_data)
 
@@ -361,6 +356,7 @@ def analyze_path(solution_path: Optional[List[Dict[str, int]]], puzzle: Dict) ->
     starts_at_start = len(solution_path) > 0 and solution_path[0] == start_point
     ends_at_exit = len(solution_path) > 0 and solution_path[-1] == end_point
     starts_at_start_ends_at_exit = starts_at_start and ends_at_exit
+
 
     # Check if path is connected (no gaps)
     connected_line = True
